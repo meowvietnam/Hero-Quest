@@ -24,19 +24,6 @@ public abstract class CardSO : ScriptableObject
     }    
 
 }
-[CreateAssetMenu]
 
-public abstract class CardBuff : CardSO
-{
-    [SerializeField] protected float valueBuff;
-
-    public override void Play()
-    {
-        Player.instance.SetMana(Player.instance.GetMana() - manaCost);
-        
-    }
-
-
-}
 
 
