@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Node : MonoBehaviour
 {
-    public float gCost; //
-    public float hCost;
-    public float fCost => gCost + hCost;
+    [SerializeField] private float gCost; //
+    [SerializeField] private float hCost;
+    private float fCost => gCost + hCost;
     [SerializeField] private int indexX;
     [SerializeField] private int indexY;
     [SerializeField] private bool isObstacle;
@@ -75,12 +75,18 @@ public class Node : MonoBehaviour
         this.indexX = indexX;
         this.indexY = indexY;
         spriteRenderer.sprite = spriteNode;
-    }    
+    }
+    public float GetGCost() { return gCost; }
+    public float GetHCost() { return hCost; }
+    public float GetFCost() { return fCost; }
+
     public int GetIndexX() { return indexX; }
     public int GetIndexY() {  return indexY; }
-    public void SetPreviousNode(Node previouseNode)
+    public void SetPreviousNode(Node previouseNode , float gCost , float hCost)
     {
         this.previousNode = previouseNode;
+        this.gCost = gCost;
+        this.hCost = hCost;
     }    
     public Node GetPreviousNode()
     {
