@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : Character
@@ -44,5 +45,10 @@ public class Player : Character
         {
             TakeDame(enemy.GetDame());
         }    
+    }
+
+    public override void Die()
+    {
+        GameManager.instance.Lose();
     }
 }

@@ -6,9 +6,14 @@ public abstract class CardSO : ScriptableObject
 {
    [SerializeField] protected string description;
    [SerializeField] protected int manaCost;
+   [SerializeField] protected Sprite spriteCard;
 
-   
 
+
+    public Sprite GetSpriteCard()
+    {
+        return spriteCard;
+    }
 
     public abstract void Play();
 
@@ -21,8 +26,8 @@ public abstract class CardSO : ScriptableObject
     public int GetManaCost()
     {
         return manaCost;
-    }    
-
+    }
+   
 }
 
 

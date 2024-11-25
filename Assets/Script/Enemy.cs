@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,8 +70,9 @@ public class Enemy : Character
     protected void SetupIfCountTargetPathGreaterThanActionRange(ref List<Node> targetPath)
     {
        
-
+         
         int count = 0;
+        
         Node targetNode = targetPath[targetPath.Count - 1];
 
         Node GetNodeWithActionRange(Node targetNode,ref int count)
@@ -96,7 +98,9 @@ public class Enemy : Character
 
             foreach (Node neighbor in neighborNodes)
             {
+                if (neighbor.GetCurrentInteractiveObject() != null ) continue;
                 float distance = Vector3.Distance(neighbor.transform.position, Player.instance.transform.position);
+
                 if (distance >= maxDistance)
                 {
                     maxDistance = distance;
@@ -112,5 +116,10 @@ public class Enemy : Character
         {
             targetPath.Insert(0,nodeWithActionRange);
         }
+    }
+
+    public override void Die()
+    {
+        gameObject.SetActive(false);
     }
 }

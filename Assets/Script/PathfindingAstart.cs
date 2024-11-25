@@ -29,11 +29,15 @@ public class PathfindingAstart : MonoBehaviour
  
     public List<Node> FindPath(Node startNode, Node endNode)
     {
-        
+       
         List<Node> closeNodes = new List<Node>();
         List<Node> resultNodes = new List<Node>();
         List<Node> openNodes = new List<Node>();
+        if (endNode == null)
+        {
+            return resultNodes;
 
+        }
         Node currentNode;
         openNodes.Add(startNode);
         // currentNode = BestNodeCostInOpenList();

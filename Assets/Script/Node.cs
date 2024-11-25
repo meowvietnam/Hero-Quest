@@ -13,6 +13,8 @@ public class Node : MonoBehaviour
     [SerializeField] private List<Node> neighborNodes = new List<Node>();
     private SpriteRenderer spriteRenderer;
     [SerializeField] private InteractableNode currentInteractiveObject;
+    private BoxCollider2D boxCollider;
+
 
     public void SetCurrentInteractiveObject(InteractableNode currentInteractiveObject)
     {
@@ -23,8 +25,10 @@ public class Node : MonoBehaviour
     {
        
         
-       spriteRenderer = GetComponent<SpriteRenderer>();    
-         
+       spriteRenderer = GetComponent<SpriteRenderer>();
+       boxCollider = GetComponent<BoxCollider2D>();
+
+
 
     }
     public List<Node> GetNeighborNode()
@@ -49,7 +53,7 @@ public class Node : MonoBehaviour
     public void SetObstacle()
     {
         isObstacle = true;
-        spriteRenderer.color = Color.black;
+        gameObject.SetActive(false);
     }
     public InteractableNode GetCurrentInteractiveObject()
     {
@@ -76,6 +80,7 @@ public class Node : MonoBehaviour
         this.indexY = indexY;
         spriteRenderer.sprite = spriteNode;
     }
+    public BoxCollider2D GetCollider() { return this.boxCollider; }
     public float GetGCost() { return gCost; }
     public float GetHCost() { return hCost; }
     public float GetFCost() { return fCost; }
@@ -95,7 +100,7 @@ public class Node : MonoBehaviour
     // Update is called once per frame
     private void OnMouseUp()
     {
-        if (GameManager.instance.GetStateGame() == StateGame.Action ||  currentInteractiveObject is Player)
+        if (GameManager.instance.GetStateGame() == StateGame.Action ||  currentInteractiveObject is Player || (GameManager.instance.GetCurrentTurn() is Player player && player.GetAnim().GetInteger("Anim") != (int)Character.AnimState.Idle ))
         {
             return;
         }
@@ -134,7 +139,12 @@ public class Node : MonoBehaviour
                 {
                     if(interactableNode is Enemy enemy)
                     {
-                        GameManager.instance.SetInforCard(manaCost + playerTurn.GetActionRange(), $"Move and eliminate <color=red>{enemy.GetNameCharacter()}</color>");
+                        GameManager.instance.SetInforCard(manaCost + playerTurn.GetActionRange(), $"Move and eliminate <color=red>{enemy.GetName()}</color>");
+
+                    }
+                    else if(interactableNode is Item item)
+                    {
+                        GameManager.instance.SetInforCard(manaCost + playerTurn.GetActionRange(), $"Move and absorb <color=green>{item.GetName()}</color>");
 
                     }
                 }    

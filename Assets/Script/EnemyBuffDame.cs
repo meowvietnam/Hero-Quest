@@ -15,7 +15,10 @@ public class EnemyBuffDame : EnemyBuff
     {
 
         List<Enemy> listEnemy = GetListEnemy();
-
+        if(listEnemy.Count == 0)
+        {
+            return PathfindingAstart.instance.FindPath(currentNode, null);
+        }    
         float minDame = listEnemy.Min(enemy => enemy.GetDame());
         List<Enemy> minDameEnemys = listEnemy.Where(enemy => enemy.GetDame() == minDame).ToList();
 

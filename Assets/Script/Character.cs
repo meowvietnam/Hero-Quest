@@ -18,7 +18,6 @@ public abstract class Character : InteractableNode
     [SerializeField] protected int actionRange = 1;
     [SerializeField] protected int manaCostAction = 1;
 
-    [SerializeField] protected string nameCharacter = "";
 
     public enum AnimState
     {
@@ -117,6 +116,12 @@ public abstract class Character : InteractableNode
 
     public void Action(List<Node> targetPath)
     {
+        if (targetPath.Count == 0)
+        {
+            Debug.Log(" Khoong tim thay duong di den target");
+            GameManager.instance.SwapTurn();
+            return;
+        }
         StartCoroutine(CoroutineAction(targetPath));
     }
 
@@ -128,11 +133,25 @@ public abstract class Character : InteractableNode
         GameManager.instance.SetStateGame(StateGame.Action);
         yield return StartCoroutine(CoroutineMovingAndAction(tartgetPathAfterConfig, interactableNode));
     }
+    public virtual void CheckDie()
+    {
+        if (hp <= 0)
+        {
+            //Die
+            currentNode.GetCollider().enabled = false;
+            SetAnim(AnimState.Death);
+            GameManager.instance.EventCharacterDie(this);
+
+           
+        }
+    }
+    public abstract void Die();
     public void TakeDame(float dame)
     {
         hp -= dame;
         SetHp(hp);
         SetAnim(AnimState.Hit);
+        CheckDie();
     }
     public List<Node> SetUpTargetWithActionRange(List<Node> targetPath, ref InteractableNode interactableNode)
     {
@@ -202,13 +221,14 @@ public abstract class Character : InteractableNode
     {
         return actionRange;
     }
-    public string GetNameCharacter()
-    {
-        return nameCharacter;
-    }
+ 
     public SpriteRenderer GetSpriteRenderer()
     {
         return spriteRenderer;
-    }    
+    }
+    public Animator GetAnim()
+    {
+        return anim;
+    }
 
 }

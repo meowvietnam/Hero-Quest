@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class InteractableNode : MonoBehaviour
 {
+    [SerializeField] protected string nameInterActableNode = "";
+
 
     [SerializeField] protected Node currentNode;
     public void SetCurrentNode(Node currentNode)
@@ -17,9 +19,12 @@ public abstract class InteractableNode : MonoBehaviour
         return currentNode;
     }
     public abstract void NodeInteractionEvent(InteractableNode sender);
-    
+    public string GetName()
+    {
+        return nameInterActableNode;
+    }
 
-    
+
     void Start()
     {
         

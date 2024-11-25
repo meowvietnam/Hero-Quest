@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int col;
     [SerializeField] private Node[,] mapNodes;
     [SerializeField] private GameObject prefabNode;
+
     [SerializeField] private GameObject nodesMapGO;
     [SerializeField] private Sprite[] spriteMap;
     [SerializeField] private List<Character> listCharacter;
@@ -28,20 +29,55 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text inforCardText;
 
     [SerializeField] private BuffSO buffConfig;
+    [SerializeField] private List<CardSO> listCard;
+    [SerializeField] private CardBehaviour prefabCard;
+    [SerializeField] private GameObject listCardGameObject;
+
+    [SerializeField] private List<Item> listPrefabItem;
+
 
     [SerializeField] private Image introImg;
     [SerializeField] private Sprite introSpriteEnemy;
     [SerializeField] private Sprite introSpritePlayer;
 
-    // Test
+    [SerializeField] private List<LevelData> levelData;
+    [SerializeField] private int indexCurrentLevel = 0;
 
-    public Enemy enemy;
-    public Enemy enemyRange;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject particalWin;
 
-    public Enemy enemyBuff;
-    public Enemy enemyBuffHp;
-    public Enemy enemyBuffMana;
-    public Enemy enemyAssasin;
+    private void DrawCard()
+    {
+        // CheckDropCard
+        if (listCardGameObject.transform.childCount >= 5)
+        {
+            listCardGameObject.transform.GetChild(0).GetComponent<CardBehaviour>().EffectDropCard();
+        }
+
+
+        // Draw Card
+        CardSO thisCardSO = listCard[Random.Range(0, listCard.Count)];
+        CardBehaviour cardBehaviour = Instantiate(prefabCard, listCardGameObject.transform);
+        cardBehaviour.SetCard(thisCardSO);
+
+        
+    }
+    public void EventCharacterDie(Character character)
+    {
+
+        listCharacter.Remove(character);
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            Item thisItem = Instantiate(listPrefabItem[Random.Range(0, listPrefabItem.Count)], nodesMapGO.transform);
+            Node thatNode = character.GetCurrentNode();
+            thisItem.SetCurrentNode(thatNode);
+            CheckWin();
+            thatNode.GetCollider().enabled = true;
+            character.Die();
+        });
+     
+
+    }
 
     private void Awake()
     {
@@ -49,28 +85,81 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        CreateMap();
-
-        // test
-        //44 54 55 34
-        enemyBuff.SetCurrentNode(mapNodes[3, 3]);
-        enemy.SetCurrentNode(mapNodes[4,4]);
-        enemyBuffHp.SetCurrentNode(mapNodes[0, 0]);
-        enemyBuffMana.SetCurrentNode(mapNodes[2, 1]);
-        enemyRange.SetCurrentNode(mapNodes[5, 3]);
-        enemyAssasin.SetCurrentNode(mapNodes[4, 2]);
-
-        Player.instance.SetCurrentNode(mapNodes[5,5]);
-        StartCoroutine(StartTurn(0));
 
 
 
     }
+    public void Lose()
+    {
+        mainMenu.SetActive(true);
+        if (this.nodesMapGO != null)
+        {
+            Destroy(this.nodesMapGO);
+        }
+
+    }
+    public void Win()
+    {
+        mainMenu.SetActive(true);
+        if (this.nodesMapGO != null)
+        {
+            Destroy(this.nodesMapGO);
+        }
+        if(indexCurrentLevel < levelData.Count - 1)
+        {
+            indexCurrentLevel++;
+
+        }
+        else
+        {
+            indexCurrentLevel = 0;
+        }    
+
+    }
+    public void CheckWin()
+    {
+        if (listCharacter.Count == 1 && listCharacter[0] is Player)
+        {
+            particalWin.SetActive(true);
+            DOVirtual.DelayedCall(1f,() =>
+            {
+                particalWin.SetActive(false);
+
+                Win();
+
+            });
+        }    
+    }    
+
+    public void EventButtonPlayGame()
+    {
+        mainMenu.SetActive(false);
+        if (this.nodesMapGO != null)
+        {
+            Destroy(this.nodesMapGO);
+        }    
+
+        GameObject nodesMapGO = new GameObject();
+        nodesMapGO.transform.localPosition = new Vector3(-6.6f, 5.25f);
+        this.nodesMapGO = nodesMapGO;
+
+
+        CreateMap();
+        levelData[indexCurrentLevel].CreateMapLevel(ref listCharacter, nodesMapGO);
+        StartCoroutine(StartTurn(0));
+    }
+
     IEnumerator StartTurn(int i)
     {
+        
         Character oldCurrentTurn = currentTurn;
+
         // thằng character cũ trả về layer id = -1
-        oldCurrentTurn.GetSpriteRenderer().sortingOrder = -2;
+        if(oldCurrentTurn != null)
+        {
+            oldCurrentTurn.GetSpriteRenderer().sortingOrder = -2;
+
+        }
         // thằng character mới set layer id = 0
         Character newCurrentTurn = listCharacter[i];
         newCurrentTurn.ResetMana();
@@ -78,20 +167,21 @@ public class GameManager : MonoBehaviour
         currentTurn = newCurrentTurn;
         if (newCurrentTurn is Enemy enemy)
         {
-            if (oldCurrentTurn is Player)
+            if(oldCurrentTurn == null || (oldCurrentTurn is Player && oldCurrentTurn != null))
             {
-                 SetIntroAnim(introSpriteEnemy);
-                 yield return new WaitForSeconds(4f);
-
+                SetIntroAnim(introSpriteEnemy);
+                yield return new WaitForSeconds(4f);
             }
+          
             enemy.EnemyBaseAction();
         }
         else
         {
             SetIntroAnim(introSpritePlayer);
-
+            DrawCard();
         }
     }
+       
     void SetIntroAnim(Sprite introSprite)
     {
         introImg.sprite = introSprite;
@@ -115,14 +205,17 @@ public class GameManager : MonoBehaviour
     }    
     public void SwapTurn()
     {
+        
+            int nextTurnIndex = listCharacter.IndexOf(currentTurn) + 1;
+            if (nextTurnIndex > listCharacter.Count - 1) // index đang bị quá tràn k tồn tại tức nghĩa là turn cuối rồi reset
+            {
+                nextTurnIndex = 0;
+            }
+            StartCoroutine(StartTurn(nextTurnIndex));
+
+
+      
        
-       int nextTurnIndex = listCharacter.IndexOf(currentTurn) + 1;
-       if(nextTurnIndex > listCharacter.Count - 1) // index đang bị quá tràn k tồn tại tức nghĩa là turn cuối rồi reset
-       {
-            nextTurnIndex = 0;
-       }    
-       StartCoroutine(StartTurn(nextTurnIndex));  
-    
        
         
     }

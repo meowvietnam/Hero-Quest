@@ -20,24 +20,37 @@ public class CardBehaviour : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             return;
         }    
         Debug.Log("PlayCard");
-        isBlock = true;
-        img.DOFade(0.2f,0.5f);
+        EffectDropCard();
         cardSO.Play();
         Player.instance.SetAnim(Character.AnimState.CastSkill);
         if(Player.instance.GetMana() <= 0)
         {
             GameManager.instance.SwapTurn();
         }    
-        transform.DOMoveY(transform.position.y + 1, 0.5f).OnComplete(()=>{
+       
+    }
+    public void SetCard(CardSO cardSO)
+    {
+        this.cardSO = cardSO;
+        img.sprite = cardSO.GetSpriteCard();
+        RectTransform rectImg = img.GetComponent<RectTransform>();
+        rectImg.localPosition = new Vector3(1600,rectImg.localPosition.y,rectImg.localPosition.z);
+        rectImg.transform.DOLocalMoveX(0,0.5f);
+    }
+     
+    public void EffectDropCard()
+    {
+        isBlock = true;
+        img.DOFade(0.2f, 0.5f);
+        transform.DOMoveY(transform.position.y + 1, 0.5f).OnComplete(() => {
 
-         
+
 
             Destroy(gameObject);
 
 
         });
-    }
-
+    }    
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isBlock)

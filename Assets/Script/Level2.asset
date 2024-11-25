@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16cadce7e8c61a4f915204bc9b4b23d, type: 3}
+  m_Name: Level2
+  m_EditorClassIdentifier: 
+  map:
+  - indexMap: {x: 0, y: 0}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 0, y: 1}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 0, y: 2}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 0, y: 3}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 0, y: 9}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 0, y: 10}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 0, y: 11}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 1, y: 0}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 1, y: 6}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 1, y: 10}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 1, y: 11}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 2, y: 0}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 2, y: 6}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 2, y: 8}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 2, y: 11}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 3, y: 0}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 3, y: 4}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 3, y: 8}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 3, y: 11}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 4, y: 0}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 4, y: 1}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 4, y: 10}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 4, y: 11}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 0}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 1}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 2}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 9}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 10}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 11}
+    prefab: {fileID: 0}
+    isObstacle: 1
+  - indexMap: {x: 5, y: 6}
+    prefab: {fileID: 3172431234137727451, guid: 8685cb2b8b4793c419a37213793d8e93, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 4, y: 2}
+    prefab: {fileID: 7616528073740215302, guid: a66caecda65b8ea47b1b7b4a7f460f02, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 1, y: 4}
+    prefab: {fileID: 6522619636952115390, guid: ddc2815941c51e5439e72be730fb6454, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 0, y: 8}
+    prefab: {fileID: 268595695684531753, guid: 1be9c162498c0c641b01f4b47bb08957, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 3, y: 10}
+    prefab: {fileID: 3673735173908635175, guid: 88584fac6faddbc4b91005560160b74c, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 1, y: 1}
+    prefab: {fileID: 8076384240616830424, guid: 18976b40e4fc2604ea136cfef62133ef, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 3, y: 3}
+    prefab: {fileID: 5966905335387384986, guid: b56fb1106d5efac479fc32349fb218ab, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 2, y: 7}
+    prefab: {fileID: 3812306767198983580, guid: b6d6903566ed1794d86e9219ef73a25c, type: 3}
+    isObstacle: 0
+  - indexMap: {x: 4, y: 5}
+    prefab: {fileID: 8807236470205617186, guid: f2d0a61899606364bb6108adbed381f4, type: 3}
+    isObstacle: 0
